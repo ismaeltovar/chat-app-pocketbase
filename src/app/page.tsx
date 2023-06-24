@@ -1,16 +1,14 @@
 import { useState } from "react";
 import ChatBox from "./ChatBox";
+import Header from "./Header";
+import ChatDisplay from "./ChatDisplay";
 
 export default function Home() {
   return (
     <>
       <body>
-        <div className="text-center ">
-          {/* <button className="left-panel-btn"></button> */}
-          <h1>Chat App</h1>
-        </div>
-        <div className="chat-display">
-        </div>
+        <Header/>
+        <ChatDisplay/>
         <ChatBox/>
       </body>
     </>
