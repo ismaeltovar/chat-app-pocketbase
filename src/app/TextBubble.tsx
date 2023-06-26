@@ -8,3 +8,5 @@ function TextBubble({ text, sender, time} : {text: string, sender: string, time:
     </div>
     );
 }
+
+export default TextBubble
