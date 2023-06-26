@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { pb } from "./pocketbase";
 import ChatBox from "./ChatBox";
 import Header from "./Header";
@@ -7,6 +8,7 @@ import ChatDisplay from "./ChatDisplay";
 
 export default function Home() {
   const [user, setUser] = useState(pb.authStore.model);
+  const {push} = useRouter();
 
   useEffect(() => {
     pb.authStore.onChange(() => {
@@ -16,9 +18,15 @@ export default function Home() {
 
   const onLoginClick = async () => {
     try {
-      const authData = await pb.collection('users').authWithOAuth2({ provider: 'google' });
-      // let username = pb.authStore.model.username
-      // setUser(username !== null ? username : "sampleman");
+      push('/login')
+    } catch (error) {
+      console.error("Error fetching data:", error)
+    }
+  }
+
+  const onSignupClick = async () => {
+    try {
+      push('/signup')
     } catch (error) {
       console.error("Error fetching data:", error)
     }
@@ -30,6 +38,7 @@ export default function Home() {
         {/* <button className="left-panel-btn"></button> */}
         <h1>Chat App</h1>
         <button onClick={onLoginClick}>Log in</button>
+        <button onClick={onSignupClick}>Signup</button>
       </div>
       <ChatDisplay/>
       <ChatBox user={user} chatroom={""}/>
