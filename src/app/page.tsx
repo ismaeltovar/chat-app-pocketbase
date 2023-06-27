@@ -1,18 +1,26 @@
 'use client'
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { pb } from "./pocketbase";
+import PocketBase from 'pocketbase'
 import ChatBox from "./ChatBox";
 import Header from "./Header";
 import ChatDisplay from "./ChatDisplay";
 
+export const pb = new PocketBase('http://127.0.0.1:8090')
+
+export const samplemanId = 'aa82g8vc60r01tf'
+export const testroomId = 'y7buloawltx1dw1'
+export const samplemanPass = 'password'
+
 export default function Home() {
-  const [user, setUser] = useState(pb.authStore.model);
+  const [user, setUser] = useState(pb.authStore.model !== null ? pb.authStore.model.id : samplemanId);
+  const [chatroom, setChatroom] = useState(localStorage.getItem("chatroom") !== null ? localStorage.getItem('chatroom') : testroomId)
   const {push} = useRouter();
 
   useEffect(() => {
     pb.authStore.onChange(() => {
-      setUser(pb.authStore.model);
+      if (pb.authStore.model !== null)
+        setUser(pb.authStore.model.id);
     });
   }, [])
 
@@ -41,7 +49,7 @@ export default function Home() {
         <button onClick={onSignupClick}>Signup</button>
       </div>
       <ChatDisplay/>
-      <ChatBox user={user} chatroom={""}/>
+      <ChatBox user={user} chatroom={chatroom}/>
     </>
   );
 }

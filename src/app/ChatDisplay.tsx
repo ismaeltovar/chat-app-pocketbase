@@ -28,7 +28,7 @@ function ChatDisplay() {
     return (
         <div className="chat-display">
             {messageList.map((item: any) => {
-                <TextBubble key={item.id} text={item.text} sender={item.author} time={item.created}/>
+                return <TextBubble key={item.id} text={item.text} sender={item.author} time={item.created}/>
             })}
         </div>
     );

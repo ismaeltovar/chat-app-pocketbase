@@ -1,20 +1,29 @@
 'use client'
 import { useState, useEffect, ChangeEvent } from "react";
-import { pb } from "../pocketbase";
+import { pb, samplemanPass } from "../page";
+import { useRouter } from "next/navigation";
 import ChatBox from "./ChatBox";
 import Header from "./Header";
 import ChatDisplay from "./ChatDisplay";
 
 export default function LoginPage() {
+    const [user, setUser] = useState('')
+    const [password, setPassword] = useState('')
     const [error, setError] = useState(false)
+    const {push} = useRouter()
 
-    const onLogin = (event : ChangeEvent<HTMLInputElement>) => {
-        let userIn = event.target.querySelector('#username')
-        let passIn = event.target.querySelector('#password')
-        pb.collection('users').authWithPassword(userIn !== null ? userIn : "sampleman", passIn !== null ? passIn : "");
-        if (!pb.authStore.isValid) {
-            setError(true)
+    const onLogin = async (event : ChangeEvent<HTMLInputElement>) => {
+        try {
+            const authData = await pb.collection('users').authWithPassword(user !== '' ? user : 'sampleman', password !== '' ? password : samplemanPass);
+            if (!pb.authStore.isValid) {
+                setError(true)
+            } else {
+                push('/')
+            }
+        } catch (error) {
+            console.error("Error in LoginPage", error)
         }
+
     }
 
     return (
