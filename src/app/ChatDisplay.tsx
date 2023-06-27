@@ -12,7 +12,7 @@ function ChatDisplay() {
         const fetchData = async () => {
             try {
                 const result = await pb.collection('messages').getFullList({
-                    filter: "chatroom = 'test'",
+                    // filter: "chatroom = 'testroom'",
                     sort: "+created"
                 });
                 setMessageList(result);
@@ -26,7 +26,7 @@ function ChatDisplay() {
     }, []);
 
     return (
-        <div className="chat-display">
+        <div className="chat-display text-center">
             {messageList.map((item: any) => {
                 return <TextBubble key={item.id} text={item.text} sender={item.author} time={item.created}/>
             })}
