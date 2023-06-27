@@ -17,10 +17,17 @@ const chatrooms = {
   'testroom': 'y7buloawltx1dw1'
 }
 
+function useForceUpdate() {
+  const [value, setValue] = useState(0)
+  return () => setValue(value => value + 1)
+}
+
 export default function Home() {
   const [user, setUser] = useState(pb.authStore.model !== null ? pb.authStore.model.id : samplemanId);
   const [chatroom, setChatroom] = useState(localStorage.getItem("chatroom") !== null ? localStorage.getItem('chatroom') : testroomId)
   const {push} = useRouter();
+
+  const forceUpdate = useForceUpdate()
 
   useEffect(() => {
     pb.authStore.onChange(() => {
@@ -47,16 +54,16 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex justify-center">
+      <div className="flex justify-center p-4 bg-green-400">
         {/* <button className="left-panel-btn"></button> */}
-        <h1 className="ml-auto">Chat App</h1>
+        <h1 className="ml-auto font-semibold">Chat App</h1>
         <div className="ml-auto">
           <button className="flex-initial px-4" onClick={onLoginClick}>Log in</button>
           <button className="flex-initial px-4" onClick={onSignupClick}>Signup</button>
         </div>
       </div>
       <ChatDisplay/>
-      <ChatBox user={user} chatroom={chatroom}/>
+      <ChatBox user={user} chatroom={chatroom} forceUpdate={forceUpdate}/>
     </>
   );
 }
