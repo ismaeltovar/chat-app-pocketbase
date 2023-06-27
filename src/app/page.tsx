@@ -12,6 +12,11 @@ export const samplemanId = 'aa82g8vc60r01tf'
 export const testroomId = 'y7buloawltx1dw1'
 export const samplemanPass = 'password'
 
+//For later use when selecting diffirent chatrooms
+const chatrooms = {
+  'testroom': 'y7buloawltx1dw1'
+}
+
 export default function Home() {
   const [user, setUser] = useState(pb.authStore.model !== null ? pb.authStore.model.id : samplemanId);
   const [chatroom, setChatroom] = useState(localStorage.getItem("chatroom") !== null ? localStorage.getItem('chatroom') : testroomId)
@@ -42,11 +47,13 @@ export default function Home() {
 
   return (
     <>
-      <div className="text-center ">
+      <div className="flex justify-center">
         {/* <button className="left-panel-btn"></button> */}
-        <h1>Chat App</h1>
-        <button onClick={onLoginClick}>Log in</button>
-        <button onClick={onSignupClick}>Signup</button>
+        <h1 className="ml-auto">Chat App</h1>
+        <div className="ml-auto">
+          <button className="flex-initial px-4" onClick={onLoginClick}>Log in</button>
+          <button className="flex-initial px-4" onClick={onSignupClick}>Signup</button>
+        </div>
       </div>
       <ChatDisplay/>
       <ChatBox user={user} chatroom={chatroom}/>

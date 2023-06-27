@@ -5,9 +5,9 @@ import PocketBase from 'pocketbase';
 const pb = new PocketBase('http://127.0.0.1:8090')
 
 export default function ChatBox({user, chatroom} : {user: any, chatroom: any}) {
-    const [text, setText] = useState("Enter something to chat");
+    const [text, setText] = useState("");
   
-    const onInputChanged = (event : ChangeEvent<HTMLInputElement>) => {
+    const onInputChanged = (event : ChangeEvent<HTMLTextAreaElement>) => {
       setText(event.target.value);
       console.log(text);
     }
@@ -21,8 +21,9 @@ export default function ChatBox({user, chatroom} : {user: any, chatroom: any}) {
     }
   
     return (
-      <div className="text-center sticky">
-        <input name="text-in" className="text-black" value={text} onChange={onInputChanged}/>
+      <div className="flex justify-center fixed mb-5 min-w-full bottom-0 right-0 left-0">
+          <textarea name="text-in" className="px-4 m-2 text-black resize-none border rounded-full" 
+          value={text} onChange={onInputChanged} placeholder="Enter something to chat" autoFocus={false}/>
         <button className="send-btn" onClick={onSend}>Send</button>
       </div>
     );
