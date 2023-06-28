@@ -20,13 +20,15 @@ export default function ChatBox({user, chatroom, fetchData} : {user: any, chatro
       })
 
       fetchData()
+      setText('')
     }
   
     return (
       <div className="flex justify-center fixed mb-5 min-w-full bottom-0 right-0 left-0">
-          <textarea name="text-in" className="px-4 m-2 text-black resize-none border rounded-full" 
+          <textarea name="text-in" className="px-4 m-2 w-7/12 text-black resize-none border rounded-full" 
           value={text} onChange={onInputChanged} placeholder="Enter something to chat" autoFocus={false}/>
-        <button className="send-btn" onClick={onSend}>Send</button>
+        <button id="send-btn" className="disabled:opacity-20 rounded-3xl bg-green-400 px-5 py-3 h-fit self-center"
+         onClick={onSend} disabled={text === '' ? true : false}>Send</button>
       </div>
     );
   }

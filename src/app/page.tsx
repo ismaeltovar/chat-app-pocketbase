@@ -79,7 +79,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex justify-center p-4 bg-green-400">
+      <div className="fixed w-screen flex justify-center p-4 bg-green-400">
         {/* <button className="left-panel-btn"></button> */}
         <h1 className="ml-auto font-semibold">Chat App</h1>
         <div className="ml-auto">

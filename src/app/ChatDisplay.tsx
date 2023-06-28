@@ -9,7 +9,7 @@ function ChatDisplay({msgList} : {msgList : Record<any, any>}) {
     // const [messageList, setMessageList] = useState([]);
 
     return (
-        <div className="chat-display text-center">
+        <div className="chat-display text-center pt-20 pb-24">
             {msgList.map((item: any) => {
                 return <TextBubble key={item.id} text={item.text} sender={item.author} time={item.created}/>
             })}
