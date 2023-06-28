@@ -12,5 +12,7 @@ export default function SignupPage() {
   }, [push])
 
   if (localStorage.getItem('loggedin') == 'false')
-      return (<Form login={true}/>)
+    return (<Form signup={true}/>)
+  else
+    return (<></>)
 }
