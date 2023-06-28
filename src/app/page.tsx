@@ -24,6 +24,7 @@ const chatrooms = {
 
 export const useFetchData = () => {
   const [messageList, setMessageList] = useState<Record<any, any>>([]);
+  const [userList, setUserList] = useState<Record<any, any>>([])
   const [error, setError] = useState<Error | null>(null)
 
   const fetchData = useCallback(async () => {
@@ -33,6 +34,11 @@ export const useFetchData = () => {
               sort: "+created"
           })
           setMessageList(result)
+          console.log(JSON.stringify(result))
+
+          const users = await pb.collection('users').getFullList({})
+          console.log(JSON.stringify(users))
+          setUserList(users)
       } catch (error) {
           console.error("Error fetching data:", error)
           setError(error)
@@ -42,7 +48,8 @@ export const useFetchData = () => {
   useEffect(() => {fetchData()}, [fetchData])
 
   return {
-    data: messageList,
+    messages: messageList,
+    users: userList,
     fetchData
   }
 }
@@ -52,7 +59,7 @@ export default function Home() {
   const [chatroom, setChatroom] = useState(localStorage.getItem("chatroom") !== null ? localStorage.getItem('chatroom') : testroomId)
   const {push} = useRouter();
 
-  const {data, fetchData} = useFetchData()
+  const {messages, users, fetchData} = useFetchData()
 
   useEffect(() => {
     pb.authStore.onChange(() => {
@@ -80,7 +87,7 @@ export default function Home() {
   return (
     <>
       <Header/>
-      <ChatDisplay msgList={data}/>
+      <ChatDisplay msgList={messages} users={users}/>
       <ChatBox user={user} chatroom={chatroom} fetchData={fetchData}/>
     </>
   );
