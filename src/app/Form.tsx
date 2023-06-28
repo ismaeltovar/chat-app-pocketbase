@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import { guestPass, pb } from "./page";
+import { guestPass, pb } from "./tools";
 import { useRouter } from "next/navigation";
 import Header from "./Header";
 

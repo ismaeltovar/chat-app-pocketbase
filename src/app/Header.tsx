@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import React, { MouseEventHandler } from "react";
-import { pb } from "./page";
+import { pb } from "./tools";
 
 function Header({currentUser = 'guest', enableLogin = true, enableSignup = true} : {currentUser? : string | null, enableLogin? : boolean, enableSignup? : boolean}) {
     const router = useRouter()
