@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import PocketBase from 'pocketbase'
 import ChatBox from "./ChatBox";
@@ -17,9 +17,34 @@ const chatrooms = {
   'testroom': 'y7buloawltx1dw1'
 }
 
-function useForceUpdate() {
-  const [value, setValue] = useState(0)
-  return () => setValue(value => value + 1)
+// function useForceUpdate() {
+//   const [value, setValue] = useState(0)
+//   return () => setValue(value => value + 1)
+// }
+
+export const useFetchData = () => {
+  const [messageList, setMessageList] = useState<Record<any, any>>([]);
+  const [error, setError] = useState<Error | null>(null)
+
+  const fetchData = useCallback(async () => {
+      try {
+          const result = await pb.collection('messages').getFullList({
+              // filter: "chatroom = 'testroom'",
+              sort: "+created"
+          })
+          setMessageList(result)
+      } catch (error) {
+          console.error("Error fetching data:", error)
+          setError(error)
+      }
+  }, []);
+
+  useEffect(() => {fetchData()}, [fetchData])
+
+  return {
+    data: messageList,
+    fetchData
+  }
 }
 
 export default function Home() {
@@ -27,7 +52,7 @@ export default function Home() {
   const [chatroom, setChatroom] = useState(localStorage.getItem("chatroom") !== null ? localStorage.getItem('chatroom') : testroomId)
   const {push} = useRouter();
 
-  const forceUpdate = useForceUpdate()
+  const {data, fetchData} = useFetchData()
 
   useEffect(() => {
     pb.authStore.onChange(() => {
@@ -62,8 +87,8 @@ export default function Home() {
           <button className="flex-initial px-4" onClick={onSignupClick}>Signup</button>
         </div>
       </div>
-      <ChatDisplay/>
-      <ChatBox user={user} chatroom={chatroom} forceUpdate={forceUpdate}/>
+      <ChatDisplay msgList={data}/>
+      <ChatBox user={user} chatroom={chatroom} fetchData={fetchData}/>
     </>
   );
 }

@@ -4,7 +4,7 @@ import PocketBase from 'pocketbase';
 
 const pb = new PocketBase('http://127.0.0.1:8090')
 
-export default function ChatBox({user, chatroom} : {user: any, chatroom: any}) {
+export default function ChatBox({user, chatroom, fetchData} : {user: any, chatroom: any, fetchData: any}) {
     const [text, setText] = useState("");
   
     const onInputChanged = (event : ChangeEvent<HTMLTextAreaElement>) => {
@@ -18,6 +18,8 @@ export default function ChatBox({user, chatroom} : {user: any, chatroom: any}) {
         author: `${user}`,
         chatroom: `${chatroom}`
       })
+
+      fetchData()
     }
   
     return (
