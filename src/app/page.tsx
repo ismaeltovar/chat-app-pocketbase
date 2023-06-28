@@ -61,7 +61,7 @@ export default function Home() {
     });
   }, [])
 
-  const onLoginClick = async () => {
+  const onLoginClick = () => {
     try {
       push('/login')
     } catch (error) {
@@ -69,7 +69,7 @@ export default function Home() {
     }
   }
 
-  const onSignupClick = async () => {
+  const onSignupClick = () => {
     try {
       push('/signup')
     } catch (error) {
@@ -79,14 +79,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="fixed w-screen flex justify-center p-4 bg-green-400">
-        {/* <button className="left-panel-btn"></button> */}
-        <h1 className="ml-auto font-semibold">Chat App</h1>
-        <div className="ml-auto">
-          <button className="flex-initial px-4" onClick={onLoginClick}>Log in</button>
-          <button className="flex-initial px-4" onClick={onSignupClick}>Signup</button>
-        </div>
-      </div>
+      <Header/>
       <ChatDisplay msgList={data}/>
       <ChatBox user={user} chatroom={chatroom} fetchData={fetchData}/>
     </>
