@@ -1,12 +1,13 @@
 import { useRouter } from "next/navigation";
 import React, { MouseEventHandler } from "react";
+import { pb } from "./page";
 
-function Header({enableLogin = true, enableSignup = true} : {enableLogin? : boolean, enableSignup? : boolean}) {
-    const {push} = useRouter()
+function Header({currentUser = 'guest', enableLogin = true, enableSignup = true} : {currentUser? : string | null, enableLogin? : boolean, enableSignup? : boolean}) {
+    const router = useRouter()
 
     const onHomeClick = () => {
       try {
-        push('/')
+        router.push('/')
       } catch (error) {
         console.error("Error with router:", error)
       }
@@ -14,7 +15,7 @@ function Header({enableLogin = true, enableSignup = true} : {enableLogin? : bool
 
     const onLoginClick = () => {
       try {
-        push('/login')
+        router.push('/login')
       } catch (error) {
         console.error("Error with router:", error)
       }
@@ -22,21 +23,34 @@ function Header({enableLogin = true, enableSignup = true} : {enableLogin? : bool
   
     const onSignupClick = () => {
       try {
-        push('/signup')
+        router.push('/signup')
       } catch (error) {
         console.error("Error with router:", error)
       }
     }
 
+    const onLogoutClick = () => {
+      pb.authStore.clear()
+      window.location.reload()
+    }
+
     return (
-      <div className="fixed w-screen flex justify-center p-5 bg-green-400">
+      <div className="fixed w-screen flex justify-center items-center py-8 bg-green-400">
         {/* <button className="left-panel-btn"></button> */}
         <button className="ml-auto absolute" onClick={onHomeClick}>
           <h1 className="font-semibold">Chat App</h1>
         </button>
         <div className="ml-auto ">
-            <button className="flex-initial px-4 disabled:opacity-10" onClick={onLoginClick} disabled={!enableLogin}>Log in</button>
-            <button className="flex-initial px-4 disabled:opacity-10" onClick={onSignupClick} disabled={!enableSignup}>Signup</button>
+          {currentUser === 'guest' ?
+            <div className="mr-4">
+              <button className="flex-initial px-4 disabled:opacity-10" onClick={onLoginClick} disabled={!enableLogin}>Log in</button>
+              <button className="flex-initial px-4 disabled:opacity-10" onClick={onSignupClick} disabled={!enableSignup}>Signup</button>
+            </div>
+            : <div className="flex flex-col items-end mr-8">
+                <div className="">{`Welcome, ${currentUser}!`}</div>
+                <button className="" onClick={onLogoutClick}>Log out</button>
+              </div>
+          }
         </div>
       </div>
     );
