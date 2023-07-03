@@ -8,12 +8,14 @@ import { useRouter } from "next/navigation";
 import ChatBox from "./ChatBox";
 import Header from "./Header";
 import ChatDisplay from "./ChatDisplay";
-import { guestId, pb, testroomId, getUsername, useFetchData } from "./tools";
+import { pb, getUsername, useFetchData } from "./tools";
 
 //For later use when selecting diffirent chatrooms
 const chatrooms = {
-  'testroom': 'y7buloawltx1dw1'
+  'testroom': process.env.NEXT_PUBLIC_TESTROOM_ID
 }
+
+const GUEST_ID = process.env.NEXT_PUBLIC_GUEST_ID
 
 // function useForceUpdate() {
 //   const [value, setValue] = useState(0)
@@ -21,18 +23,17 @@ const chatrooms = {
 // }
 
 export default function Home() {
-  const [user, setUser] = useState(pb.authStore.model !== null ? pb.authStore.model.id : guestId);
-  const [chatroom, setChatroom] = useState(testroomId)
+  const [user, setUser] = useState(pb.authStore.model !== null ? pb.authStore.model.id : GUEST_ID);
+  const [chatroom, setChatroom] = useState(chatrooms.testroom)
   const {push} = useRouter();
 
   const {messages, users, fetchData} = useFetchData()
 
   const onUserChange = useCallback(() => {
-    if (localStorage.getItem('loggedin') == 'true' && user == guestId)
+    if (localStorage.getItem('loggedin') == 'true' && user == GUEST_ID)
       localStorage.setItem('loggedin', 'false')
     pb.authStore.onChange(() => {
       if (pb.authStore.model !== null) {
-        console.log(JSON.stringify(pb.authStore.model))
         setUser(pb.authStore.model.id);
         if (pb.authStore.model.username == 'guest')
           localStorage.setItem('loggedin', 'false')

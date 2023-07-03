@@ -1,13 +1,15 @@
 import PocketBase from 'pocketbase'
-import { SetStateAction, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
-export const pb = new PocketBase('http://127.0.0.1:8090')
+export const pb = new PocketBase(process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_PROD_IP : process.env.NEXT_PUBLIC_TEST_IP)
 
-export const guestId = 'vfoe0vud0aptg8q'
-export const testroomId = 'y7buloawltx1dw1'
-export const guestPass = 'password'
+export const guestId = process.env.NEXT_PUBLIC_GUEST_ID
+export const guestPass = process.env.NEXT_PUBLIC_GUEST_PASS
+export const testroomId = process.env.NEXT_PUBLIC_TESTROOM_ID
 
-export function getUsername(userId : string, users : Record<any, any>[]) {
+export function getUsername(userId : string | undefined, users : Record<any, any>[]) {
+  if (userId == undefined)
+    throw new Error("user undefined in function getUsername. Check if the process.env variable is working.")
   let user = users.find(record => record.id === userId)
   return user === null || user === undefined ? 'guest' : user.username
 }

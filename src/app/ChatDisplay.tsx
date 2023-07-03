@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import PocketBase from 'pocketbase';
 import TextBubble from "./TextBubble";
 
-const pb = new PocketBase('http://127.0.0.1:8090')
+const pb = new PocketBase(process.env.NODE_ENV === "production" ? process.env.prod_ip : process.env.test_ip)
 
 function ChatDisplay({msgList, users} : {msgList : Record<any, any>, users : Record<any, any>[]}) {
     // const [messageList, setMessageList] = useState([]);
@@ -15,11 +15,10 @@ function ChatDisplay({msgList, users} : {msgList : Record<any, any>, users : Rec
     }, [])
 
     return (
-        <div id="chat-display" className="flex flex-col pt-20 pb-24 items-center">
+        <div id="chat-display" className="flex flex-col pt-28 pb-24 items-center">
             {msgList.map((item: any) => {
               const date = new Date(item.created)
               const author = users.find(record => record.id === item.author)
-              console.log(JSON.stringify(users))
 
               return <TextBubble key={item.id} text={item.text} sender={author === undefined ?  "": author.username} time={date.toLocaleTimeString()}/>
             })}

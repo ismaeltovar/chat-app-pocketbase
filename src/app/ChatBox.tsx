@@ -1,15 +1,12 @@
 "use client"
 import { ChangeEvent, useState } from "react";
-import PocketBase from 'pocketbase';
-
-const pb = new PocketBase('http://127.0.0.1:8090')
+import { pb } from "./tools";
 
 export default function ChatBox({user, chatroom, fetchData} : {user: any, chatroom: any, fetchData: any}) {
     const [text, setText] = useState("");
   
     const onInputChanged = (event : ChangeEvent<HTMLTextAreaElement>) => {
       setText(event.target.value);
-      console.log(text);
     }
 
     const onSend = async () => {
