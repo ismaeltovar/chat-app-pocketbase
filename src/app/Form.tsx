@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import { guestPass, pb } from "./tools";
+import { pb } from "./tools";
 import { useRouter } from "next/navigation";
 import Header from "./Header";
 
@@ -14,7 +14,7 @@ export default function Form({login = false, signup = false} : {login? : boolean
     const onLogin = async (event : FormEvent<HTMLFormElement>) => {
       event.preventDefault()
       try {
-        const authData = await pb.collection('users').authWithPassword(user !== '' ? user : 'guest', password !== '' ? password : guestPass);
+        const authData = await pb.collection('users').authWithPassword(user !== '' ? user : 'guest', password !== '' ? password : 'password');
         push('/')
       } catch (error) {
         setError(true)
@@ -25,7 +25,7 @@ export default function Form({login = false, signup = false} : {login? : boolean
     const onSignup = async (event : FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const userIn = user !== '' ? user : 'guest'
-        const passIn = password !== '' ? password : guestPass
+        const passIn = password !== '' ? password : 'password'
         const emailIn = email
 
         try {

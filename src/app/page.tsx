@@ -47,7 +47,7 @@ export default function Home() {
 
   return (
     <>
-      <Header currentUser={getUsername(user, users)}/>
+      <Header currentUser={getUsername(user == undefined ? '' : user, users)}/>
       <ChatDisplay msgList={messages} users={users}/>
       <ChatBox user={user} chatroom={chatroom} fetchData={fetchData}/>
     </>
