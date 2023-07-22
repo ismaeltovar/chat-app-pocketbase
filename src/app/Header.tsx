@@ -35,14 +35,14 @@ function Header({currentUser = 'guest', enableLogin = true, enableSignup = true}
     }
 
     return (
-      <div className="fixed w-screen flex justify-center items-center py-8 bg-green-400">
+      <div className="fixed w-screen flex justify-center items-center py-4 bg-green-400">
         {/* <button className="left-panel-btn"></button> */}
         <button className="ml-auto absolute" onClick={onHomeClick}>
           <h1 className="font-semibold">Chat App</h1>
         </button>
         <div className="ml-auto ">
           {currentUser === 'guest' ?
-            <div className="mr-4">
+            <div className="mr-4 py-3">
               <button className="flex-initial px-4 disabled:opacity-10" onClick={onLoginClick} disabled={!enableLogin}>Log in</button>
               <button className="flex-initial px-4 disabled:opacity-10" onClick={onSignupClick} disabled={!enableSignup}>Signup</button>
             </div>
